@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const sequelize = require('../config/connection');
 const { Post, User, Comment, Vote } = require('../models');
+const withAuth = require('../utils/auth');
 
 // get all posts for homepage
 router.get('/', (req, res) => {
@@ -41,7 +42,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.post('/', (req, res) => {
+router.post('/', withAuth, (req, res) => {
   // check the session
   if (req.session) {
     Comment.create({
